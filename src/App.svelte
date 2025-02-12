@@ -33,7 +33,6 @@
         { duration: 0.6, type: "spring", bounce: 0.5 }
       );
       animations.forEach((animation) => {
-        console.log(animation);
         animation.pause();
         animation.time = 0;
         animation.play();
