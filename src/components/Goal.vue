@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import confetti from './Confetti.vue'
+  import confetti from './Confetti.vue'
   import { Icon } from "@iconify/vue";
   import { ref, reactive, onMounted, computed, watch } from "vue";
   import { animate } from "motion";
@@ -99,7 +99,6 @@ import confetti from './Confetti.vue'
     showConfetti.value = false;
     if (money.value >= goal) {
       showConfetti.value = true;
-      triggerConfetti();
     }
   }
 
