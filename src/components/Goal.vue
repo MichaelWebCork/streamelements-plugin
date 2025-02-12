@@ -1,3 +1,68 @@
+<script setup>
+import confetti from "./Confetti.vue";
+import { Icon } from "@iconify/vue";
+import { ref, reactive, onMounted, computed, watch } from "vue";
+import { animate } from "motion";
+
+const money = ref(100);
+const goal = 500;
+
+const icon = ref(null);
+const moneyContainer = ref(null);
+const progress = ref(null);
+const showConfetti = ref(false);
+
+const animations = reactive([]);
+
+function playAllAnimations() {
+  if (!animations.length) {
+    animations.push(
+      animate(
+        icon.value,
+        { rotate: 360 },
+        { duration: 0.6, type: "spring", bounce: 0.5 }
+      )
+    );
+    animations.push(
+      animate(
+        moneyContainer.value,
+        { y: [20, 0], opacity: [0, 1] },
+        { duration: 0.6, type: "spring", bounce: 0.5 }
+      )
+    );
+  } else {
+    animate(
+      progress.value,
+      { width: `${(money.value / goal) * 100}%` },
+      { duration: 0.6, type: "spring", bounce: 0.5 }
+    );
+    animations.forEach((animation) => {
+      animation.pause();
+      animation.time = 0;
+      animation.play();
+    });
+  }
+  showConfetti.value = false;
+  if (money.value >= goal) {
+    showConfetti.value = true;
+  }
+}
+
+function increment() {
+  if (money.value < goal) {
+    money.value += 50;
+    playAllAnimations();
+  }
+}
+
+function decrement() {
+  if (money.value > 0) {
+    money.value -= 50;
+    playAllAnimations();
+  }
+}
+</script>
+
 <template>
   <div class="flex h-svh w-svw items-center justify-center p-5">
     <div class="relative">
@@ -10,7 +75,6 @@
       <div
         class="relative flex w-fit items-center gap-4 rounded-full bg-blue-950 px-6 py-4 text-white"
       >
-
         <div
           ref="icon"
           class="shrink rounded-full p-2 outline-2 outline-yellow-300"
@@ -39,81 +103,20 @@
       </div>
 
       <div class="mt-4 flex justify-center gap-2">
-        <confetti v-if="showConfetti"/>
-        <button @click="increment" class="rounded bg-amber-500 px-4 py-2 text-white">
+        <confetti v-if="showConfetti" />
+        <button
+          @click="increment"
+          class="rounded bg-amber-500 px-4 py-2 text-white"
+        >
           Increment
         </button>
-        <button @click="decrement" class="rounded bg-red-500 px-4 py-2 text-white">
+        <button
+          @click="decrement"
+          class="rounded bg-red-500 px-4 py-2 text-white"
+        >
           Decrement
         </button>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-  import confetti from './Confetti.vue'
-  import { Icon } from "@iconify/vue";
-  import { ref, reactive, onMounted, computed, watch } from "vue";
-  import { animate } from "motion";
-
-  const money = ref(100);
-  const goal = 500;
-
-  const icon = ref(null);
-  const moneyContainer = ref(null);
-  const progress = ref(null);
-  const showConfetti = ref(false);
-
-
-  const animations = reactive([]);
-
-  function playAllAnimations() {
-    if (!animations.length) {
-      animations.push(
-        animate(
-          icon.value,
-          { rotate: 360 },
-          { duration: 0.6, type: "spring", bounce: 0.5 }
-        )
-      );
-      animations.push(
-        animate(
-          moneyContainer.value,
-          { y: [20, 0], opacity: [0, 1] },
-          { duration: 0.6, type: "spring", bounce: 0.5 }
-        )
-      );
-    } else {
-       animate(
-        progress.value,
-        { width: `${(money.value / goal) * 100}%` },
-        { duration: 0.6, type: "spring", bounce: 0.5 }
-      );
-      animations.forEach((animation) => {
-        animation.pause();
-        animation.time = 0;
-        animation.play();
-      });
-    }
-    showConfetti.value = false;
-    if (money.value >= goal) {
-      showConfetti.value = true;
-    }
-  }
-
-  function increment() {
-    if (money.value < goal) {
-      money.value += 50;
-      playAllAnimations();
-    }
-  }
-
-  function decrement() {
-    if (money.value > 0) {
-      money.value -= 50;
-      playAllAnimations();
-    }
-  }
-
-</script>
