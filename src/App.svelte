@@ -1,61 +1,56 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  // import anime from "animejs";
-  // import confetti from "canvas-confetti"; // Import confetti library
+  import confetti from "canvas-confetti"; // Import confetti library
+  import { animate } from "motion";
 
   let money = $state(100);
+  let icon = $state();
+  let moneyContainer = $state();
+  let progress = $state();
   const goal = 500;
-  // let animations: anime.AnimeInstance[] = [];
 
-  function setupAnimations() {
-    // animations.push(
-    //   anime({
-    //     targets: ".money-icon",
-    //     rotate: "1turn",
-    //     easing: "spring(1, 80, 8, 15)",
-    //     duration: 100,
-    //     autoplay: false,
-    //   })
-    // );
-    // animations.push(
-    //   anime({
-    //     targets: ".money-amount",
-    //     translateY: [10, 0],
-    //     opacity: [0, 1],
-    //     easing: "spring(1, 80, 8, 15)",
-    //     duration: 100,
-    //     autoplay: false,
-    //   })
-    // );
-  }
-
+  const animations = [];
   function playAllAnimations() {
-    // if (!animations.length) {
-    //   setupAnimations();
-    // }
-    // if (money >= goal) {
-    //   triggerConfetti();
-    // }
-    // anime({
-    //   targets: ".progress-bar",
-    //   width: `${(money / goal) * 100}%`,
-    //   easing: "spring(1, 80, 8, 15)",
-    //   duration: 100,
-    //   autoplay: true,
-    // });
-    // animations.forEach((animation) => {
-    //   animation.reset();
-    //   animation.play();
-    // });
+    if (!animations.length) {
+      animations.push(
+        animate(
+          icon,
+          { rotate: 360 },
+          { duration: 0.6, type: "spring", bounce: 0.5 }
+        )
+      );
+      animations.push(
+        animate(
+          moneyContainer,
+          { y: [20, 0], opacity: [0, 1] },
+          { duration: 0.6, type: "spring", bounce: 0.5 }
+        )
+      );
+    } else {
+      animate(
+        progress,
+        { width: `${(money / goal) * 100}%` },
+        { duration: 0.6, type: "spring", bounce: 0.5 }
+      );
+      animations.forEach((animation) => {
+        console.log(animation);
+        animation.pause();
+        animation.time = 0;
+        animation.play();
+      });
+    }
+    if (money >= goal) {
+      triggerConfetti();
+    }
   }
 
   function triggerConfetti() {
-    // confetti({
-    //   particleCount: 200,
-    //   spread: 70,
-    //   origin: { y: 0.6 }, // Adjust origin for better effect
-    //   colors: ["#f00", "#0f0", "#00f", "#ff0", "#f0f"], // Example colors
-    // });
+    confetti({
+      particleCount: 200,
+      spread: 70,
+      origin: { y: 0.6 }, // Adjust origin for better effect
+      colors: ["#f00", "#0f0", "#00f", "#ff0", "#f0f"], // Example colors
+    });
   }
 
   function increment() {
@@ -84,7 +79,10 @@
     <div
       class="relative flex w-fit items-center gap-4 rounded-full bg-blue-950 px-6 py-4 text-white"
     >
-      <div class="shrink rounded-full p-2 outline-2 outline-yellow-300">
+      <div
+        bind:this={icon}
+        class="shrink rounded-full p-2 outline-2 outline-yellow-300"
+      >
         <Icon
           icon="fluent-emoji-high-contrast:money-bag"
           class="money-icon text-4xl text-yellow-300"
@@ -92,11 +90,15 @@
       </div>
       <div>
         <div class="mb-2 text-xl font-bold">
-          <span class="money-amount inline-block">€{money}</span> / €{goal}
+          <span bind:this={moneyContainer} class="money-amount inline-block"
+            >€{money}</span
+          >
+          / €{goal}
         </div>
         <div class="relative h-4 w-60 overflow-hidden rounded-full">
           <div class="absolute h-full w-full bg-blue-600/20"></div>
           <div
+            bind:this={progress}
             class="progress-bar absolute h-full rounded-full bg-yellow-300"
             style="width:{(money / goal) * 100}%"
           ></div>
