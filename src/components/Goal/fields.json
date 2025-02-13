@@ -18,7 +18,7 @@
   },
   "icon": {
     "type": "dropdown",
-    "label": "Choose an icon:",
+    "label": "Preset Icons:",
     "value": "tabler:pig-money",
     "options": {
       "tabler:pig-money": "Piggy Bank",
@@ -33,5 +33,9 @@
       "tabler:bong": "Bong",
       "tabler:bone": "Bone"
     }
+  },
+  "cofetti": {
+    "type": "checkbox",
+    "label": "Show confetti when goal is Reached"
   }
 }

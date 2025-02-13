@@ -129,7 +129,7 @@ function decrement() {
       </div>
 
       <div class="mt-4 flex justify-center gap-2">
-        <confetti v-if="showConfetti" />
+        <confetti v-if="fieldData.cofetti && showConfetti" />
         <button
           @click="increment"
           class="rounded bg-amber-500 px-4 py-2 text-white"
