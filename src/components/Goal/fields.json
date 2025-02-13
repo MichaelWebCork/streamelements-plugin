@@ -1,4 +1,17 @@
 {
+  "type": {
+    "type": "dropdown",
+    "label": "Type",
+    "value": "tabler:pig-money",
+    "options": {
+      "tip": "Tip",
+      "cheer": "Cheer (bits)",
+      "follower": "Follower",
+      "subscriber": "Subscriber",
+      "charityCampaignDonation": "Charity Campaign",
+      "raid": "Raid"
+    }
+  },
   "goalTitle": {
     "type": "text",
     "label": "Goal Title",
@@ -36,6 +49,7 @@
   },
   "cofetti": {
     "type": "checkbox",
-    "label": "Show confetti when goal is Reached"
+    "label": "Show confetti when goal is Reached",
+    "value": true
   }
 }

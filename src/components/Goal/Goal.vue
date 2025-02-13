@@ -37,6 +37,30 @@ onMounted(async () => {
     window.addEventListener("onWidgetLoad", function (obj) {
       fieldData.value = obj.detail.fieldData;
     });
+    window.addEventListener("onEventReceived", function (obj) {
+      // ⊹ Twitch — followers, subs, tips and bits
+      // ⊹ Youtube — subscribers, superchat and tips
+      // ⊹ Ko-fi — subscriptions/memberships and tips
+      const event = obj.detail.event;
+      switch (event.type) {
+        case "follower":
+          addMoney(1);
+          break;
+        case "subscriber":
+          // event.data.gifted
+          addMoney(event.data.amount);
+          break;
+        case "tip":
+        case "cheer":
+        case "charityCampaignDonation":
+        case "raid":
+          addMoney(event.data.amount);
+          break;
+
+        default:
+          break;
+      }
+    });
   }
 });
 
@@ -74,18 +98,14 @@ function playAllAnimations() {
   }
 }
 
-function increment() {
-  if (money.value < fieldData.value.goalAmount) {
-    money.value += 50;
-    playAllAnimations();
-  }
+function addMoney(amount) {
+  money.value += amount;
+  playAllAnimations();
 }
 
-function decrement() {
-  if (money.value > 0) {
-    money.value -= 50;
-    playAllAnimations();
-  }
+function removeMoney(amount) {
+  money.value -= amount;
+  playAllAnimations();
 }
 </script>
 
@@ -131,13 +151,13 @@ function decrement() {
       <div class="mt-4 flex justify-center gap-2">
         <confetti v-if="fieldData.cofetti && showConfetti" />
         <button
-          @click="increment"
+          @click="() => addMoney(50)"
           class="rounded bg-amber-500 px-4 py-2 text-white"
         >
           Increment
         </button>
         <button
-          @click="decrement"
+          @click="() => removeMoney(50)"
           class="rounded bg-red-500 px-4 py-2 text-white"
         >
           Decrement
