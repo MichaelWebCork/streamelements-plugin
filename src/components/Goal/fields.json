@@ -10,5 +10,28 @@
     "value": 300,
     "min": 0,
     "step": 5
+  },
+  "customIcon": {
+    "type": "text",
+    "label": "Custom Icon (iconify)",
+    "value": ""
+  },
+  "icon": {
+    "type": "dropdown",
+    "label": "Choose an icon:",
+    "value": "tabler:pig-money",
+    "options": {
+      "tabler:pig-money": "Piggy Bank",
+      "tabler:heart-dollar": "Heart Dollar",
+      "tabler:shopping-cart-dollar": "Shopping Cart Dollar",
+      "tabler:baguette": "Bread",
+      "tabler:apple": "Apple",
+      "tabler:beer-filled": "Beer",
+      "tabler:blender": "Blender",
+      "tabler:biohazard": "Biohazard",
+      "tabler:bomb": "Bomb",
+      "tabler:bong": "Bong",
+      "tabler:bone": "Bone"
+    }
   }
 }

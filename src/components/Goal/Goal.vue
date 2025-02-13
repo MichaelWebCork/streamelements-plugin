@@ -106,7 +106,7 @@ function decrement() {
           class="shrink rounded-full p-2 outline-2 outline-yellow-300"
         >
           <Icon
-            icon="fluent-emoji-high-contrast:money-bag"
+            :icon="fieldData.customIcon || fieldData.icon"
             class="money-icon text-4xl text-yellow-300"
           />
         </div>
