@@ -5,8 +5,6 @@ import { ref, reactive, onMounted, computed, watch } from "vue";
 import { animate } from "motion";
 
 const money = ref(100);
-// const goal = 500;
-
 const icon = ref(null);
 const moneyContainer = ref(null);
 const progress = ref(null);
