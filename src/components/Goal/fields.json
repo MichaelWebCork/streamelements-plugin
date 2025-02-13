@@ -1,0 +1,14 @@
+{
+  "goalTitle": {
+    "type": "text",
+    "label": "Goal Title",
+    "value": "Tip Goal"
+  },
+  "goalAmount": {
+    "type": "number",
+    "label": "Goal Amount",
+    "value": 300,
+    "min": 0,
+    "step": 5
+  }
+}
